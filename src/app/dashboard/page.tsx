@@ -1,8 +1,17 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 
+// Define the shape of our appointment data
+interface Appointment {
+  id: string;
+  subject?: string;
+  clientName?: string;
+  dateTime?: string;
+}
+
 export default function DashboardPage() {
-  const [appointments, setAppointments] = useState<any[]>([]); // Added type for appointments
+  // Use our new Appointment type instead of 'any'
+  const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -16,7 +25,6 @@ export default function DashboardPage() {
         const data = await response.json();
         setAppointments(data);
       } catch (err) {
-        // This is the corrected error handling block
         if (err instanceof Error) {
           setError(err.message);
         } else {
@@ -40,7 +48,8 @@ export default function DashboardPage() {
       {!isLoading && !error && (
         <div className="space-y-4">
           {appointments.length > 0 ? (
-            appointments.map((appt) => (
+            // Use our Appointment type for 'appt'
+            appointments.map((appt: Appointment) => (
               <div key={appt.id} className="bg-white p-4 rounded-lg shadow">
                 <h3 className="font-bold text-lg">{appt.subject || 'No Subject'}</h3>
                 <p><strong>Client:</strong> {appt.clientName || 'N/A'}</p>
