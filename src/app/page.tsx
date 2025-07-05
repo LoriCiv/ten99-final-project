@@ -14,7 +14,7 @@ export default function App() {
     setYear(new Date().getFullYear());
   }, []);
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: any) => {
     event.preventDefault();
     setIsLoading(true);
     setApiResponse('');
@@ -39,16 +39,18 @@ export default function App() {
       const data = await response.json();
 
       if (response.ok) {
-        try {
-          const cleanedResponse = data.aiResponse?.replace(/```json\n|\n```/g, '');
-          const parsed = cleanedResponse ? JSON.parse(cleanedResponse) : null;
+        const cleanedResponse = data.aiResponse?.replace(/```json\n|\n```/g, '');
+        let parsed;
 
-          if (parsed) {
-            setApiResponse(JSON.stringify(parsed, null, 2));
-          } else {
-            throw new Error("Empty response from AI");
-          }
-        } catch (_) {
+        try {
+          parsed = cleanedResponse ? JSON.parse(cleanedResponse) : null;
+        } catch {
+          parsed = null;
+        }
+
+        if (parsed) {
+          setApiResponse(JSON.stringify(parsed, null, 2));
+        } else {
           setApiResponse('Error parsing AI response. Please try again.');
           setIsError(true);
         }
@@ -56,7 +58,7 @@ export default function App() {
         setApiResponse(`Error from API: ${data.error}`);
         setIsError(true);
       }
-    } catch (_) {
+    } catch {
       setApiResponse('An error occurred: Failed to connect to the API. Please try again.');
       setIsError(true);
     }
