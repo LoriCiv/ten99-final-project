@@ -1,8 +1,7 @@
-import { authMiddleware } from "@clerk/nextjs/server";
+import { authMiddleware } from "@clerk/nextjs";
 
 export default authMiddleware({
-  // Add the routes that should be accessible to everyone,
-  // logged in or not. In our case, just the landing page.
+  // The landing page is public and accessible to everyone.
   publicRoutes: ["/"],
 });
 
