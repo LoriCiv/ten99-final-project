@@ -1,10 +1,10 @@
-import { clerkMiddleware } from "@clerk/nextjs";
+import { authMiddleware } from "@clerk/nextjs/server";
 
-export default clerkMiddleware({
+export default authMiddleware({
   // The landing page is public and accessible to everyone.
   publicRoutes: ["/"],
 });
 
 export const config = {
-  matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
+  matcher: ["/((?!_next|.*\\..*).*)"],
 };
