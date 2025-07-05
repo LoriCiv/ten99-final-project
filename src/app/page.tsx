@@ -8,7 +8,7 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => { // <<< THE FIX IS HERE
     event.preventDefault();
     setIsLoading(true);
     setApiResponse('');
@@ -41,7 +41,7 @@ export default function App() {
         setIsError(true);
       }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (_error) { // <<< THE FIX IS THE COMMENT ABOVE THIS LINE
+    } catch (_error) {
       setApiResponse(`An error occurred: Failed to connect to the API. Please try again.`);
       setIsError(true);
     }
