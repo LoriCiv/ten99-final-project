@@ -40,7 +40,8 @@ export default function App() {
         setApiResponse(`Error from API: ${data.error}`);
         setIsError(true);
       }
-    } catch (_error) { // <<< THE ONLY CHANGE IS HERE
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (_error) { // <<< THE FIX IS THE COMMENT ABOVE THIS LINE
       setApiResponse(`An error occurred: Failed to connect to the API. Please try again.`);
       setIsError(true);
     }
