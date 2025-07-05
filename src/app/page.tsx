@@ -1,4 +1,4 @@
-"use client"; // This line is important for Next.js
+"use client";
 
 import { useState } from 'react';
 
@@ -40,7 +40,7 @@ export default function App() {
         setApiResponse(`Error from API: ${data.error}`);
         setIsError(true);
       }
-    } catch (error) {
+    } catch (_error) { // <<< THE ONLY CHANGE IS HERE
       setApiResponse(`An error occurred: Failed to connect to the API. Please try again.`);
       setIsError(true);
     }
