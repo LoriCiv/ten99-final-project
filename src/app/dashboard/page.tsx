@@ -48,7 +48,6 @@ export default function DashboardPage() {
       {!isLoading && !error && (
         <div className="space-y-4">
           {appointments.length > 0 ? (
-            // Use our Appointment type for 'appt'
             appointments.map((appt: Appointment) => (
               <div key={appt.id} className="bg-white p-4 rounded-lg shadow">
                 <h3 className="font-bold text-lg">{appt.subject || 'No Subject'}</h3>
