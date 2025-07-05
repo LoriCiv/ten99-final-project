@@ -48,7 +48,7 @@ export default function App() {
           } else {
             throw new Error("Empty response from AI");
           }
-        } catch (jsonError) {
+        } catch (_) {
           setApiResponse('Error parsing AI response. Please try again.');
           setIsError(true);
         }
@@ -56,7 +56,7 @@ export default function App() {
         setApiResponse(`Error from API: ${data.error}`);
         setIsError(true);
       }
-    } catch (error) {
+    } catch (_) {
       setApiResponse('An error occurred: Failed to connect to the API. Please try again.');
       setIsError(true);
     }
