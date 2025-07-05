@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 
 export default function DashboardPage() {
-  const [appointments, setAppointments] = useState([]);
+  const [appointments, setAppointments] = useState<any[]>([]); // Added type for appointments
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -16,8 +16,12 @@ export default function DashboardPage() {
         const data = await response.json();
         setAppointments(data);
       } catch (err) {
-        // This is safe to use err.message now
-        setError(err.message);
+        // This is the corrected error handling block
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError('An unknown error occurred');
+        }
       } finally {
         setIsLoading(false);
       }
