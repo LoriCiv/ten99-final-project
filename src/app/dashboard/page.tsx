@@ -18,7 +18,7 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        const response = await fetch('https://api.ten99.app/api/getAppointments');
+        const response = await fetch('ten99-nohklwd2y-loris-projects-49a7ae06.vercel.app/getAppointments');
         if (!response.ok) {
           throw new Error('Failed to fetch appointments');
         }
