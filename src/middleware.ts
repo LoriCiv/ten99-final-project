@@ -1,10 +1,11 @@
 // src/middleware.ts
-import { authMiddleware } from "@clerk/nextjs/server";
+import { clerkMiddleware } from "@clerk/nextjs/server";
+import { NextResponse } from "next/server";
 
-export default authMiddleware({
-  publicRoutes: ["/"], // Add your public paths here
+export default clerkMiddleware((auth, req) => {
+  return NextResponse.next();
 });
 
 export const config = {
-  matcher: ["/((?!_next|.*\\..*).*)"],
+  matcher: ["/((?!.*\\..*|_next).*)", "/"], // applies to all routes except static files
 };
