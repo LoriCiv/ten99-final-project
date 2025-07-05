@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from 'react';
 import { useState, useEffect } from 'react';
 
 export default function App() {
@@ -8,23 +7,19 @@ export default function App() {
   const [apiResponse, setApiResponse] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [year, setYear] = useState<number | null>(null);
+  const [year, setYear] = useState(new Date().getFullYear());
 
-  useEffect(() => {
-    setYear(new Date().getFullYear());
-  }, []);
-
-  const handleSubmit = async (event: any) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true);
     setApiResponse('');
     setIsError(false);
 
     if (!emailText.trim()) {
-      setApiResponse('Please paste some email text before submitting.');
-      setIsError(true);
-      setIsLoading(false);
-      return;
+        setApiResponse('Please paste some email text before submitting.');
+        setIsError(true);
+        setIsLoading(false);
+        return;
     }
 
     try {
@@ -39,32 +34,25 @@ export default function App() {
       const data = await response.json();
 
       if (response.ok) {
-        const cleanedResponse = data.aiResponse?.replace(/```json\n|\n```/g, '');
-        let parsed;
-
-        try {
-          parsed = cleanedResponse ? JSON.parse(cleanedResponse) : null;
-        } catch {
-          parsed = null;
-        }
-
-        if (parsed) {
-          setApiResponse(JSON.stringify(parsed, null, 2));
-        } else {
-          setApiResponse('Error parsing AI response. Please try again.');
-          setIsError(true);
-        }
+        // The AI sometimes wraps its JSON in markdown, so we'll clean it up.
+        const cleanedResponse = data.aiResponse.replace(/```json\n|\n```/g, '');
+        setApiResponse(JSON.stringify(JSON.parse(cleanedResponse), null, 2));
       } else {
         setApiResponse(`Error from API: ${data.error}`);
         setIsError(true);
       }
-    } catch {
-      setApiResponse('An error occurred: Failed to connect to the API. Please try again.');
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (_error) {
+      setApiResponse(`An error occurred: Failed to connect to the API. Please try again.`);
       setIsError(true);
     }
 
     setIsLoading(false);
   };
+
+  useEffect(() => {
+    setYear(new Date().getFullYear());
+  }, []);
 
   return (
     <div className="bg-gray-50 font-sans antialiased text-gray-800">
@@ -113,7 +101,7 @@ export default function App() {
             <form onSubmit={handleSubmit}>
               <textarea
                 value={emailText}
-                onChange={(e) => setEmailText(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setEmailText(e.target.value)}
                 className="w-full h-40 p-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
                 placeholder="Paste email text here..."
               ></textarea>
@@ -139,7 +127,7 @@ export default function App() {
 
       <footer className="bg-gray-800 text-white py-12">
         <div className="container mx-auto px-6 text-center">
-          <p>&copy; {year ?? ''} Ten99. All rights reserved.</p>
+          <p>&copy; {year} Ten99. All rights reserved.</p>
         </div>
       </footer>
     </div>
