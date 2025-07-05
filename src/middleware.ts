@@ -1,12 +1,9 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
-import { NextRequest } from 'next/server';
+import { authMiddleware } from "@clerk/nextjs/server";
 
-const isProtectedRoute = createRouteMatcher([
-  '/dashboard(.*)',
-]);
-
-export default clerkMiddleware((auth, req: NextRequest) => {
-  if (isProtectedRoute(req)) auth().protect();
+export default authMiddleware({
+  // Add the routes that should be accessible to everyone,
+  // logged in or not. In our case, just the landing page.
+  publicRoutes: ["/"],
 });
 
 export const config = {
