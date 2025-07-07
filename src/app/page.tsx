@@ -1,135 +1,160 @@
-"use client";
+import { SignInButton, SignedIn, SignedOut } from "@clerk/nextjs";
+import Link from "next/link";
+import Image from 'next/image';
 
-import { useState, useEffect } from 'react';
-
-export default function App() {
-  const [emailText, setEmailText] = useState('');
-  const [apiResponse, setApiResponse] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const [year, setYear] = useState(new Date().getFullYear());
-
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setIsLoading(true);
-    setApiResponse('');
-    setIsError(false);
-
-    if (!emailText.trim()) {
-        setApiResponse('Please paste some email text before submitting.');
-        setIsError(true);
-        setIsLoading(false);
-        return;
-    }
-
-    try {
-      const response = await fetch('https://api.ten99.app/api/extract', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ emailText }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        // The AI sometimes wraps its JSON in markdown, so we'll clean it up.
-        const cleanedResponse = data.aiResponse.replace(/```json\n|\n```/g, '');
-        setApiResponse(JSON.stringify(JSON.parse(cleanedResponse), null, 2));
-      } else {
-        setApiResponse(`Error from API: ${data.error}`);
-        setIsError(true);
-      }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (_error) {
-      setApiResponse(`An error occurred: Failed to connect to the API. Please try again.`);
-      setIsError(true);
-    }
-
-    setIsLoading(false);
-  };
-
-  useEffect(() => {
-    setYear(new Date().getFullYear());
-  }, []);
-
+export default function Home() {
   return (
-    <div className="bg-gray-50 font-sans antialiased text-gray-800">
-      <header className="bg-white shadow-sm sticky top-0 z-10">
-        <nav className="container mx-auto px-6 py-4 flex justify-between items-center">
-          <div className="text-2xl font-bold text-indigo-600">Ten99</div>
+    // Main container for the whole page
+    <main className="flex flex-col items-center bg-white text-black">
+
+      {/* =================================================================== */}
+      {/* HEADER / TOP NAVIGATION BAR */}
+      {/* =================================================================== */}
+      <header className="w-full absolute top-0 left-0 py-4 px-8 z-10">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          {/* Left Side: Logo and Name */}
+          <Link href="/" className="flex items-center space-x-3">
+            <Image src="/logo.png" alt="Ten99 Logo" width={32} height={32} />
+            <span className="font-bold text-xl tracking-tight">Ten99</span>
+          </Link>
+          
+          {/* Right Side: Sign In / Dashboard Button */}
           <div>
-            <a
-              href="#"
-              className="bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors duration-300"
-            >
-              Sign In
-            </a>
+            <SignedOut>
+              <SignInButton mode="modal">
+                <button className="font-semibold text-gray-600 hover:text-black transition-colors">
+                  Sign In
+                </button>
+              </SignInButton>
+            </SignedOut>
+            <SignedIn>
+              <Link href="/dashboard">
+                <button className="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg text-sm hover:bg-blue-700 transition-colors">
+                  Dashboard
+                </button>
+              </Link>
+            </SignedIn>
           </div>
-        </nav>
+        </div>
       </header>
 
-      <main className="container mx-auto px-6 py-20 text-center">
-        <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 leading-tight">
+
+      {/* =================================================================== */}
+      {/* Hero Section */}
+      {/* =================================================================== */}
+      <section className="w-full text-center pt-40 pb-24 px-6 bg-gray-50">
+        <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-4">
           Your Freelancing, Simplified.
         </h1>
-        <p className="mt-6 text-xl text-gray-600 max-w-2xl mx-auto">
-          Ten99 is the all-in-one platform that automates your invoicing, tracks
-          expenses, and prepares you for tax time, so you can focus on what you
-          do best.
+        <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+          Everything you need to manage your clients, calendar, and payments—all in one simple place.
         </p>
-        <div className="mt-8">
-          <a
-            href="#process"
-            className="bg-indigo-600 text-white font-bold py-4 px-8 rounded-lg text-lg hover:bg-indigo-700 transition-colors duration-300 shadow-lg"
-          >
-            Get Started for Free
-          </a>
-        </div>
-      </main>
-
-      <section id="process" className="bg-white py-24">
-        <div className="container mx-auto px-6 max-w-xl">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900">Process an Email</h2>
-            <p className="mt-4 text-lg text-gray-600">
-              Paste the body of a job offer email below to see the magic.
-            </p>
-          </div>
-          <div className="bg-white p-8 rounded-lg shadow-2xl">
-            <form onSubmit={handleSubmit}>
-              <textarea
-                value={emailText}
-                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setEmailText(e.target.value)}
-                className="w-full h-40 p-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
-                placeholder="Paste email text here..."
-              ></textarea>
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="mt-6 w-full bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-indigo-700 transition-colors duration-300 disabled:bg-indigo-400 disabled:cursor-not-allowed"
-              >
-                {isLoading ? 'Processing...' : 'Extract Appointment Info'}
+        
+        <div className="flex justify-center">
+          <SignedOut>
+            <SignInButton mode="modal">
+              <button className="bg-blue-600 text-white font-bold py-3 px-10 rounded-lg text-lg hover:bg-blue-700 transition-colors">
+                Get Started
               </button>
-            </form>
-            {apiResponse && (
-              <div className="mt-6 text-left">
-                <h3 className="font-semibold text-gray-800">Result:</h3>
-                <pre className={`mt-2 p-4 bg-gray-100 rounded-md whitespace-pre-wrap ${isError ? 'text-red-600' : ''}`}>
-                  {apiResponse}
-                </pre>
-              </div>
-            )}
+            </SignInButton>
+          </SignedOut>
+          <SignedIn>
+            <Link href="/dashboard">
+              <button className="bg-blue-600 text-white font-bold py-3 px-10 rounded-lg text-lg hover:bg-blue-700 transition-colors">
+                Go to Your Dashboard
+              </button>
+            </Link>
+          </SignedIn>
+        </div>
+        <p className="text-sm text-gray-500 mt-4">
+          From inbox to invoice, effortlessly.
+        </p>
+      </section>
+
+      {/* =================================================================== */}
+      {/* "You Handle the Work" Section */}
+      {/* =================================================================== */}
+      <section className="w-full text-center py-24 px-6">
+        <h2 className="text-3xl md:text-4xl font-bold mb-4">You Handle the Work. Ten99 Handles the Rest.</h2>
+        {/* === APOSTROPHE FIXES ARE IN THIS PARAGRAPH === */}
+        <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-12">
+          Being a freelancer means wearing every hat. From booking jobs to sending invoices to remembering who&apos;s paid you—and who hasn&apos;t—it&apos;s easy to feel buried in admin work. Ten99 brings it all together into one smart, simple place.
+        </p>
+        <div className="max-w-4xl mx-auto grid md:grid-cols-2 lg:grid-cols-4 gap-8 text-left">
+          <div className="p-2"><span className="text-green-500 mr-2">✅</span>View your whole schedule at a glance</div>
+          <div className="p-2"><span className="text-green-500 mr-2">✅</span>Stay on top of every client and detail</div>
+          <div className="p-2"><span className="text-green-500 mr-2">✅</span>Track income, mileage, and expenses</div>
+          <div className="p-2"><span className="text-green-500 mr-2">✅</span>Send polished invoices in seconds</div>
+        </div>
+      </section>
+      
+      {/* =================================================================== */}
+      {/* "Meet Alex" Story Section */}
+      {/* =================================================================== */}
+      <section className="w-full py-24 px-6 bg-gray-50">
+        <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Meet Alex. (Or Meet Yourself).</h2>
+            <p className="text-lg text-gray-600">
+                Alex is a freelance designer. Every week, they juggle emails from clients, last-minute reschedules, chasing payments, and wondering how much to save for taxes. You didn’t go freelance to spend your evenings formatting spreadsheets.
+            </p>
+            <p className="mt-8 text-xl font-medium">
+                Ten99 was built for Alex—and for you.
+            </p>
+        </div>
+      </section>
+
+      {/* =================================================================== */}
+      {/* REWRITTEN "FEATURES" SECTION */}
+      {/* =================================================================== */}
+       <section className="w-full text-center py-24 px-6">
+        <h2 className="text-3xl md:text-4xl font-bold mb-12">The Power of an Entirely Unified Workflow.</h2>
+        <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-10 text-left">
+          
+          <div className="p-4">
+            <h3 className="text-xl font-bold mb-2">Simple, Not Simplistic</h3>
+            <p className="text-gray-600">Ten99 is powerful enough to run your entire business, yet simple enough to set up in minutes. It enhances your workflow, not overhauls it.</p>
+          </div>
+          <div className="p-4">
+            <h3 className="text-xl font-bold mb-2">Total Financial Clarity</h3>
+            <p className="text-gray-600">Consolidate every income stream—W2, 1099, and more—into one clear dashboard. Understand your real earnings and cash flow at a glance.</p>
+          </div>
+          <div className="p-4">
+            <h3 className="text-xl font-bold mb-2">Built for the Modern Freelancer</h3>
+            <p className="text-gray-600">Every feature, from smart expense tracking to centralized client notes, was designed to solve the real-world challenges of independent work.</p>
+          </div>
+          <div className="p-4">
+            <h3 className="text-xl font-bold mb-2">Tax Season, Without the Stress</h3>
+            <p className="text-gray-600">Smart expense categorization and real-time tax estimates mean you&apos;re always prepared. Say goodbye to year-end surprises and hello to confidence.</p>
           </div>
         </div>
       </section>
 
-      <footer className="bg-gray-800 text-white py-12">
-        <div className="container mx-auto px-6 text-center">
-          <p>&copy; {year} Ten99. All rights reserved.</p>
+      {/* =================================================================== */}
+      {/* Final Call to Action Section */}
+      {/* =================================================================== */}
+      <section className="w-full text-center py-24 px-6 bg-gray-900 text-white">
+        <h2 className="text-3xl md:text-4xl font-bold mb-4">Stop Juggling. Start Thriving.</h2>
+        <p className="text-lg max-w-3xl mx-auto mb-8">
+          Take the stress out of self-employment and get back to the work you love.
+        </p>
+        <div className="flex justify-center">
+          <SignedOut>
+            <SignInButton mode="modal">
+              <button className="bg-white text-blue-600 font-bold py-3 px-10 rounded-lg text-lg hover:bg-gray-200 transition-colors">
+                Create Your Account Now
+              </button>
+            </SignInButton>
+          </SignedOut>
+          <SignedIn>
+            <Link href="/dashboard">
+              <button className="bg-white text-blue-600 font-bold py-3 px-10 rounded-lg text-lg hover:bg-gray-200 transition-colors">
+                Go to Your Dashboard
+              </button>
+            </Link>
+          </SignedIn>
         </div>
-      </footer>
-    </div>
+      </section>
+
+    </main>
   );
 }

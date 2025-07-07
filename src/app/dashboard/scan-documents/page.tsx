@@ -9,6 +9,7 @@ export default function ScanDocumentsPage() {
   const [result, setResult] = useState('');
 
   const handleParse = () => {
+    // This is where the AI parsing logic will go later.
     setResult(`Parsing this text: "${text}"`);
   };
 
@@ -49,7 +50,7 @@ export default function ScanDocumentsPage() {
 
                     {/* Column 2: Paste Text & Parse */}
                     <div>
-                        <h2 className="text-xl font-semibold mb-2 text-gray-800">2. Create Appointment & Profile</h2>
+                        <h2 className="text-xl font-semibold mb-2 text-gray-800">2. Paste Text & Create</h2>
                         <textarea
                             className="w-full h-48 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
                             placeholder="Paste text from your email or message here..."
@@ -61,7 +62,7 @@ export default function ScanDocumentsPage() {
                             onClick={handleParse}
                             className="w-full mt-2 bg-teal-600 text-white font-bold py-3 px-8 rounded-lg text-lg hover:bg-teal-700 transition-colors"
                         >
-                            Create Appointment & Profile
+                            Create from Text
                         </button>
                     </div>
                 </div>
