@@ -23,8 +23,3 @@ const auth = getAuth(app);
 
 export { db, auth };
 ```
-
-This file is now "healthy" because:
-1.  **It's Secure:** It doesn't contain any secret keys directly in the code. It loads them from the environment, which is the correct practice.
-2.  **It's Efficient:** It checks if Firebase has already been initialized (`getApps().length === 0`) to prevent re-initializing the app every time you save a file in development.
-3.  **It's Clear:** It has one purpose—to configure and export your Firebase servic
