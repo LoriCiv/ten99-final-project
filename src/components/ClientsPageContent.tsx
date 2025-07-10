@@ -15,7 +15,7 @@ import { Client, PersonalNetworkContact } from '@/types/app-interfaces';
 interface ClientFormProps {
   userId: string;
   initialData?: Client | null;
-  onSave: (client: Omit<Client, 'id'>) => Promise<void>;
+  onSave: (client: Omit<Client, 'id' | 'createdAt' | 'updatedAt'>) => Promise<void>;
   onCancel: () => void;
 }
 
@@ -43,7 +43,6 @@ const ClientForm: React.FC<ClientFormProps> = ({ userId, initialData, onSave, on
       ...formData,
       userId: userId,
       clientType: formData.clientType as Client['clientType'],
-      // We handle timestamps on the server side now
     };
     onSave(clientToSave);
   };
@@ -126,7 +125,10 @@ const ClientsPageContent: React.FC = () => {
   // This useEffect sets up the real-time data subscription
   useEffect(() => {
     // If there's no user, don't try to fetch data
-    if (!user) return;
+    if (!user) {
+      setLoading(false);
+      return;
+    };
 
     setLoading(true);
     
