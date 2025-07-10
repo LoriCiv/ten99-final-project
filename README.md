@@ -1,36 +1,5 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
-
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Ten99 - Your Freelancing, Simplified.Ten99 is a full-stack web application designed to be the ultimate command center for freelancers, independent contractors, and anyone managing a mix of W2 and 1099 income. It streamlines the administrative and financial complexities of freelance work, allowing users to focus on what they do best.This project is built with a modern, full-stack JavaScript setup, leveraging the power of Next.js and Firebase.Core FeaturesClient & Contact Management: A centralized system to manage all professional contacts, from W2 employers to 1099 clients and personal network connections.Appointment Scheduling: Tools to create and manage appointments, including a "Scan Documents" feature to parse details from text and check for scheduling conflicts.Secure Authentication: User sign-up and login is handled securely by Clerk, providing a robust and easy-to-use authentication experience.Real-time Database: All application data is stored in and synchronized with Firebase Firestore, providing a fast and responsive user experience.Dashboard Overview: A central dashboard (work in progress) to give users a high-level overview of their pending tasks, upcoming appointments, and financial status.Technology StackFramework: Next.js (App Router)Language: TypeScriptStyling: Tailwind CSSAuthentication: ClerkDatabase: Firebase FirestoreDeployment: VercelGetting StartedThis is a Next.js project. To run it locally, you will first need to set up your environment variables.Clone the repository:git clone https://github.com/LoriCiv/ten99-final-project.git
+Install dependencies:cd ten99-final-project
+npm install
+Set up Environment Variables:Create a .env.local file in the root of the project and add your keys for Clerk and Firebase.Run the development server:npm run dev
+Open http://localhost:3000 with your browser to see the result.DeploymentThis application is configured for easy deployment on the Vercel Platform. Every push to the main branch will trigger a new deployment automatically.
