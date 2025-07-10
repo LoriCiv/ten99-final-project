@@ -2,14 +2,14 @@
 
 import { useState, useEffect } from 'react';
 
-// A simplified type for appointments in this component
+// This is a simplified Appointment type for this component
 interface Appointment {
   id: string;
   description: string;
   startTime: string;
 }
 
-export default function DashboardContent() {
+export default function DashboardClient() {
   const [pending, setPending] = useState<Appointment[]>([]);
   const [confirmed, setConfirmed] = useState<Appointment[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -33,12 +33,12 @@ export default function DashboardContent() {
 
   const handleAccept = async (appointmentToAccept: Appointment) => {
     setLoadingId(appointmentToAccept.id);
-    // Logic to accept an appointment
+    // Logic to accept an appointment will go here
   };
 
   const handleDecline = async (appointmentId: string) => {
     setLoadingId(appointmentId);
-    // Logic to decline an appointment
+    // Logic to decline an appointment will go here
   };
 
   if (isLoading) {
@@ -53,7 +53,18 @@ export default function DashboardContent() {
           {pending.length > 0 ? (
             pending.map((appt) => (
               <div key={appt.id} className="p-4 border rounded-lg shadow-sm bg-white flex justify-between items-center">
-                {/* JSX for pending appointments */}
+                <div>
+                  <p><strong>Description:</strong> {appt.description}</p>
+                  <p><strong>Start Time:</strong> {new Date(appt.startTime).toLocaleString()}</p>
+                </div>
+                <div className="space-x-2 flex-shrink-0">
+                  <button onClick={() => handleAccept(appt)} disabled={loadingId === appt.id} className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors disabled:bg-gray-400">
+                    {loadingId === appt.id ? 'Accepting...' : 'Accept'}
+                  </button>
+                  <button onClick={() => handleDecline(appt.id)} disabled={loadingId === appt.id} className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors disabled:bg-gray-400">
+                    {loadingId === appt.id ? 'Declining...' : 'Decline'}
+                  </button>
+                </div>
               </div>
             ))
           ) : (
@@ -69,7 +80,8 @@ export default function DashboardContent() {
           {confirmed.length > 0 ? (
             confirmed.map((appt) => (
               <div key={appt.id} className="p-4 border rounded-lg shadow-sm bg-green-50">
-                {/* JSX for confirmed appointments */}
+                <p><strong>Description:</strong> {appt.description}</p>
+                <p><strong>Start Time:</strong> {new Date(appt.startTime).toLocaleString()}</p>
               </div>
             ))
           ) : (
