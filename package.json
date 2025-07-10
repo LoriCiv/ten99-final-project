@@ -3,13 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
-    "@clerk/nextjs": "^6.23.3",
+    "@clerk/clerk-react": "^5.33.0",
+    "@clerk/nextjs": "^6.24.0",
     "@vercel/kv": "^3.0.0",
     "firebase": "^11.10.0",
     "next": "15.3.5",
