@@ -1,7 +1,7 @@
-import DashboardContent from './DashboardContent';
+import DashboardClient from './DashboardClient';
 
 export default function DashboardPage() {
   return (
-    <DashboardContent />
+    <DashboardClient />
   );
 }
