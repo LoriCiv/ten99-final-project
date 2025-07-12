@@ -13,7 +13,7 @@ import { Appointment } from '@/types/app-interfaces';
  */
 export async function GET(request: Request) {
   // Get the user ID from the Clerk authentication session
-  const { userId } = auth();
+ const { userId } = await auth();
 
   // If there is no user, return a 401 Unauthorized error
   if (!userId) {
