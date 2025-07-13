@@ -1,13 +1,19 @@
 "use client";
 
-import * as React from "react";
-import { ThemeProvider as NextThemesProvider } from "next-themes";
-import { type ThemeProviderProps } from "next-themes/dist/types"; // Corrected this line
+import { ReactNode } from "react";
+import { ThemeProvider as NextThemesProvider, type ThemeProviderProps } from "next-themes";
 
 /**
- * This component provides theme management (e.g., light/dark mode) for your application.
- * It uses the `next-themes` library, which is the standard for Next.js apps.
+ * Wraps your app in next-themes' ThemeProvider.
+ * Use this in your RootLayout to enable theme switching on the client.
  */
-export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
-  return <NextThemesProvider {...props}>{children}</NextThemesProvider>;
+export default function ThemeProvider({ // ✅ FIX: Added "default"
+  children,
+  ...props
+}: ThemeProviderProps & { children: ReactNode }) {
+  return (
+    <NextThemesProvider {...props}>
+      {children}
+    </NextThemesProvider>
+  );
 }

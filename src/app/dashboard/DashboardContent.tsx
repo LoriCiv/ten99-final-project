@@ -1,122 +1,91 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import { useUser } from '@clerk/nextjs';
-import { Appointment } from '@/types/app-interfaces';
+import Link from 'next/link';
+import type { Appointment, Client, PersonalNetworkContact } from '@/types/app-interfaces';
+import { PlusCircle, Users, Calendar } from 'lucide-react';
 
-export default function DashboardContent() {
-  const { user, isLoaded } = useUser();
-  const [pending, setPending] = useState<Appointment[]>([]);
-  const [confirmed, setConfirmed] = useState<Appointment[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [loadingId, setLoadingId] = useState<string | null>(null);
+interface DashboardContentProps {
+  appointments: Appointment[];
+  clients: Client[];
+  personalNetwork: PersonalNetworkContact[];
+}
 
-  useEffect(() => {
-    // Wait until Clerk has loaded the user information before doing anything
-    if (!isLoaded) {
-      return;
-    }
-
-    // If the user is not signed in, we don't need to fetch data.
-    if (!user) {
-      setIsLoading(false);
-      return;
-    }
-
-    const fetchAppointments = async () => {
-      setIsLoading(true);
-      setError(null);
-      try {
-        const response = await fetch('/api/get-appointments');
-        
-        // Check if the API call was successful
-        if (!response.ok) {
-          throw new Error(`API call failed with status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        setPending(data.pending || []);
-        setConfirmed(data.confirmed || []);
-
-      } catch (err) {
-        console.error("Failed to fetch appointments:", err);
-        setError("Could not load your appointments.");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchAppointments();
-  }, [user, isLoaded]); // This effect runs when the user logs in or out
-
-  const handleAccept = async (appointmentToAccept: Appointment) => {
-    // Placeholder for accept logic
-    console.log("Accepting:", appointmentToAccept.id);
-  };
-
-  const handleDecline = async (appointmentId: string) => {
-    // Placeholder for decline logic
-    console.log("Declining:", appointmentId);
-  };
-
-  // --- Render Logic ---
-
-  if (isLoading) {
-    return <p className="p-8 text-center">Loading dashboard...</p>;
-  }
-
-  if (error) {
-    return <p className="p-8 text-center text-red-500">{error}</p>;
-  }
+export default function DashboardContent({
+  appointments,
+  clients,
+  personalNetwork,
+}: DashboardContentProps) {
   
-  if (!user) {
-      return <p className="p-8 text-center">Please sign in to view your dashboard.</p>
-  }
+  // FIX: Add a fallback to an empty array to prevent a crash if the data is not ready yet.
+  // Also, filter for appointments that are today or in the future.
+  const upcomingAppointments = (appointments || [])
+    .filter(appt => new Date(appt.date + 'T00:00:00') >= new Date(new Date().toDateString()))
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+    .slice(0, 5); // Show the next 5
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto space-y-10">
-      <div>
-        <h2 className="text-2xl font-semibold border-b pb-2">Pending Appointments</h2>
-        <div className="mt-4 space-y-4">
-          {pending.length > 0 ? (
-            pending.map((appt) => (
-              <div key={appt.id} className="p-4 border rounded-lg shadow-sm bg-white flex justify-between items-center">
-                <div>
-                  <p><strong>Description:</strong> {appt.description}</p>
-                  <p><strong>Start Time:</strong> {new Date(appt.startTime).toLocaleString()}</p>
-                </div>
-                <div className="space-x-2 flex-shrink-0">
-                  <button onClick={() => handleAccept(appt)} disabled={loadingId === appt.id} className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors disabled:bg-gray-400">
-                    {loadingId === appt.id ? 'Accepting...' : 'Accept'}
-                  </button>
-                  <button onClick={() => handleDecline(appt.id!)} disabled={loadingId === appt.id} className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors disabled:bg-gray-400">
-                    {loadingId === appt.id ? 'Declining...' : 'Decline'}
-                  </button>
-                </div>
-              </div>
-            ))
-          ) : (
-            <p className="mt-4 text-gray-500">No pending appointments.</p>
-          )}
-        </div>
+    <div>
+      {/* Header */}
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-bold">Dashboard</h1>
+        {/* FIX: This link now correctly points to the new appointment page */}
+        <Link 
+          href="/dashboard/appointments/new" 
+          className="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors flex items-center shadow-md"
+        >
+          <PlusCircle className="w-5 h-5 mr-2" />
+          New Appointment
+        </Link>
       </div>
-      <div>
-        <div className="flex justify-between items-center border-b pb-2">
-          <h2 className="text-2xl font-semibold">Confirmed Appointments</h2>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        {/* Upcoming Appointments Column */}
+        <div className="lg:col-span-2 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
+          <h2 className="text-xl font-bold mb-4 flex items-center">
+            <Calendar className="w-5 h-5 mr-3 text-blue-500" />
+            Upcoming Appointments
+          </h2>
+          <div className="space-y-4">
+            {upcomingAppointments.length > 0 ? (
+              upcomingAppointments.map(appt => (
+                <div key={appt.id} className="p-3 bg-gray-100 dark:bg-gray-700/50 rounded-lg">
+                  <p className="font-bold">{appt.subject}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    {/* FIX: Correctly handle the date string */}
+                    {new Date(appt.date + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })} at {appt.time}
+                  </p>
+                </div>
+              ))
+            ) : (
+              <p className="text-gray-500">You have no upcoming appointments.</p>
+            )}
+          </div>
         </div>
-        <div className="mt-4 space-y-4">
-          {confirmed.length > 0 ? (
-            confirmed.map((appt) => (
-              <div key={appt.id} className="p-4 border rounded-lg shadow-sm bg-green-50">
-                <p><strong>Description:</strong> {appt.description}</p>
-                <p><strong>Start Time:</strong> {new Date(appt.startTime).toLocaleString()}</p>
+
+        {/* At a Glance Column */}
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
+          <h2 className="text-xl font-bold mb-4">At a Glance</h2>
+          <div className="space-y-4">
+            <div className="flex items-center p-4 bg-green-100 dark:bg-green-900/50 rounded-lg">
+              <Users className="w-6 h-6 mr-4 text-green-600 dark:text-green-400" />
+              <div>
+                {/* FIX: Add a fallback for clients array */}
+                <p className="text-2xl font-bold">{(clients || []).length}</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Active Clients</p>
               </div>
-            ))
-          ) : (
-            <p className="mt-4 text-gray-500">No confirmed appointments.</p>
-          )}
+            </div>
+            <div className="flex items-center p-4 bg-purple-100 dark:bg-purple-900/50 rounded-lg">
+              <Users className="w-6 h-6 mr-4 text-purple-600 dark:text-purple-400" />
+              <div>
+                {/* FIX: Add a fallback for personalNetwork array */}
+                <p className="text-2xl font-bold">{(personalNetwork || []).length}</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Network Contacts</p>
+              </div>
+            </div>
+          </div>
         </div>
+
       </div>
     </div>
   );

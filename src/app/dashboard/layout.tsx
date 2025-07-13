@@ -1,6 +1,6 @@
-import React from 'react';
-import { UserButton } from '@clerk/nextjs';
-import { ClientOnly } from '@/components/ClientOnly';
+import { UserButton } from "@clerk/nextjs";
+import Link from "next/link";
+import { ClientOnly } from "@/components/ClientOnly";
 
 export default function DashboardLayout({
   children,
@@ -8,32 +8,34 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex h-screen bg-gray-100">
-      {/* Sidebar */}
-      <aside className="w-64 bg-white shadow-md p-4">
-        <h2 className="text-xl font-bold mb-4">Dashboard Navigation</h2>
-        <ul>
-          <li>Clients</li>
-          <li>Appointments</li>
-          <li>Inbox</li>
-          <li>Job Files</li>
-          <li>My Money</li>
-        </ul>
+    <div className="flex h-screen bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+      {/* Sidebar Navigation */}
+      <aside className="w-56 flex-shrink-0 bg-white dark:bg-gray-800 shadow-lg p-4 flex flex-col">
+        <div className="mb-8 text-center">
+            <Link href="/dashboard" className="text-2xl font-bold text-gray-800 dark:text-white">
+                Ten99
+            </Link>
+        </div>
+        <nav className="flex-grow space-y-2">
+          <Link href="/dashboard" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-200 dark:hover:bg-gray-700">Dashboard</Link>
+          <Link href="/dashboard/clients" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-200 dark:hover:bg-gray-700">Clients</Link>
+          <Link href="/dashboard/inbox" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-200 dark:hover:bg-gray-700">Inbox</Link>
+          <Link href="/dashboard/job-files" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-200 dark:hover:bg-gray-700">Job Files</Link>
+          {/* 👇 This is the new line */}
+          <Link href="/dashboard/appointments" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-200 dark:hover:bg-gray-700">Appointments</Link>
+        </nav>
+        <div className="mt-auto p-4 flex justify-center">
+            <ClientOnly>
+                <UserButton />
+            </ClientOnly>
+        </div>
       </aside>
 
-      {/* Main Content */}
-      <main className="flex-1 overflow-auto p-6">
-        <header className="mb-6 flex justify-between items-center bg-white p-4 rounded-lg shadow-md">
-          <h1 className="text-3xl font-semibold text-gray-800">
-            Welcome to your Dashboard
-          </h1>
-          <div>
-            <ClientOnly>
-              <UserButton afterSignOutRedirectUrl="/" />
-            </ClientOnly>
-          </div>
-        </header>
-        {children}
+      {/* Main Content Area */}
+      <main className="flex-1 overflow-y-auto">
+        <div className="p-8">
+          {children}
+        </div>
       </main>
     </div>
   );

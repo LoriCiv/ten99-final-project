@@ -1,27 +1,22 @@
-'use client';
+"use client";
 
 import { SignInButton, SignedIn, SignedOut } from "@clerk/nextjs";
 import Link from "next/link";
 import Image from 'next/image';
 import { ClientOnly } from '@/components/ClientOnly';
 
-export default function Home() {
+export default function LandingPage() {
   return (
-    // Main container for the whole page
-    <main className="flex flex-col items-center bg-white text-black">
+    <main className="flex min-h-screen flex-col items-center bg-white text-black">
 
-      {/* =================================================================== */}
-      {/* HEADER / TOP NAVIGATION BAR */}
-      {/* =================================================================== */}
+      {/* Header */}
       <header className="w-full absolute top-0 left-0 py-4 px-8 z-10">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          {/* Left Side: Logo and Name */}
           <Link href="/" className="flex items-center space-x-3">
+            {/* You will need to add a logo.png to your /public folder for this to work */}
             <Image src="/logo.png" alt="Ten99 Logo" width={32} height={32} />
             <span className="font-bold text-xl tracking-tight">Ten99</span>
           </Link>
-
-          {/* Right Side: Sign In / Dashboard Button */}
           <div>
             <ClientOnly>
               <SignedOut>
@@ -43,10 +38,7 @@ export default function Home() {
         </div>
       </header>
 
-
-      {/* =================================================================== */}
       {/* Hero Section */}
-      {/* =================================================================== */}
       <section className="w-full text-center pt-40 pb-24 px-6 bg-gray-50">
         <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-4">
           Your Freelancing, Simplified.
@@ -54,7 +46,6 @@ export default function Home() {
         <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-8">
           Everything you need to manage your clients, calendar, and payments—all in one simple place.
         </p>
-
         <div className="flex justify-center">
           <ClientOnly>
             <SignedOut>
@@ -78,9 +69,7 @@ export default function Home() {
         </p>
       </section>
 
-      {/* =================================================================== */}
       {/* "You Handle the Work" Section */}
-      {/* =================================================================== */}
       <section className="w-full text-center py-24 px-6">
         <h2 className="text-3xl md:text-4xl font-bold mb-4">You Handle the Work. Ten99 Handles the Rest.</h2>
         <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-12">
@@ -94,9 +83,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* =================================================================== */}
       {/* "Meet Alex" Story Section */}
-      {/* =================================================================== */}
       <section className="w-full py-24 px-6 bg-gray-50">
         <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Meet Alex. (Or Meet Yourself).</h2>
@@ -109,13 +96,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* =================================================================== */}
-      {/* REWRITTEN "FEATURES" SECTION */}
-      {/* =================================================================== */}
-        <section className="w-full text-center py-24 px-6">
+      {/* Features Section */}
+      <section className="w-full text-center py-24 px-6">
         <h2 className="text-3xl md:text-4xl font-bold mb-12">The Power of an Entirely Unified Workflow.</h2>
         <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-10 text-left">
-
           <div className="p-4">
             <h3 className="text-xl font-bold mb-2">Simple, Not Simplistic</h3>
             <p className="text-gray-600">Ten99 is powerful enough to run your entire business, yet simple enough to set up in minutes. It enhances your workflow, not overhauls it.</p>
@@ -135,9 +119,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* =================================================================== */}
       {/* Final Call to Action Section */}
-      {/* =================================================================== */}
       <section className="w-full text-center py-24 px-6 bg-gray-900 text-white">
         <h2 className="text-3xl md:text-4xl font-bold mb-4">Stop Juggling. Start Thriving.</h2>
         <p className="text-lg max-w-3xl mx-auto mb-8">
@@ -162,6 +144,11 @@ export default function Home() {
           </ClientOnly>
         </div>
       </section>
+      
+      {/* Footer */}
+      <footer className="w-full py-8 bg-gray-100 text-center text-gray-500 text-sm mt-auto">
+        <p>&copy; {new Date().getFullYear()} Ten99. All rights reserved.</p>
+      </footer>
 
     </main>
   );

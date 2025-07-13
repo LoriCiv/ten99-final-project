@@ -1,10 +1,7 @@
-// src/app/dashboard/clients/page.tsx
+"use client";
 import ClientsPageContent from '@/components/ClientsPageContent';
 
 export default function ClientsPage() {
-  return (
-    <div className="container mx-auto py-8">
-      <ClientsPageContent />
-    </div>
-  );
+  // This page only acts as a simple container.
+  return <ClientsPageContent />;
 }

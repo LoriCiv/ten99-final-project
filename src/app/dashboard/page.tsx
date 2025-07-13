@@ -1,7 +1,7 @@
-import DashboardContent from './DashboardContent';
+"use client";
+import DashboardContent from '@/components/DashboardContent';
 
 export default function DashboardPage() {
-  return (
-    <DashboardContent />
-  );
+  // This page now only acts as a simple container.
+  return <DashboardContent />;
 }

@@ -1,0 +1,44 @@
+/* app/dashboard/appointments/Calendar.module.css */
+
+/* Main calendar container - dark background for high contrast */
+.calendar_container {
+  @apply w-full max-w-full p-2 bg-black rounded-lg;
+}
+
+/* Base styles for all buttons on the calendar */
+.calendar_container button {
+  @apply rounded-lg p-2 transition-colors duration-150 text-white bg-black border border-gray-600;
+}
+.calendar_container button:enabled:hover {
+  @apply bg-gray-900;
+}
+
+/* Month/Year navigation text (e.g., "July 2025") */
+.navigation_label {
+  @apply text-lg font-bold text-white;
+}
+
+/* Day labels (SUN, MON, TUE, etc.) */
+.weekday_label {
+  @apply text-xs font-bold text-white uppercase tracking-wider;
+}
+
+/* Individual date, month, and year tiles */
+.tile {
+  @apply text-sm font-semibold text-white;
+}
+
+/* Styling for TODAY's date - clearer highlight */
+.today_tile {
+  @apply bg-gray-700 text-white rounded-lg border border-white;
+}
+
+/* The currently SELECTED date tile */
+.active_tile {
+  @apply bg-white text-black rounded-lg font-bold;
+}
+
+/* Style for days/months not in the current view */
+.other_month_tile {
+  @apply text-gray-400 font-normal;
+}

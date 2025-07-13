@@ -1,16 +1,20 @@
-import { ClerkProvider } from '@clerk/nextjs'
-import { ThemeProvider } from "@/components/theme-provider"
-import './globals.css'
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
+import ThemeProvider from "@/components/theme-provider"; // ✅ FIX: Corrected to a default import
+import "./globals.css";
 
-export const metadata = {
-  title: 'Ten99',
-  description: 'Your Freelancing, Simplified.',
-}
+const inter = Inter({ subsets: ["latin"] });
+
+export const metadata: Metadata = {
+  title: "Ten99",
+  description: "Your Freelancing, Simplified.",
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <ClerkProvider>
@@ -27,5 +31,5 @@ export default function RootLayout({
         </body>
       </html>
     </ClerkProvider>
-  )
+  );
 }

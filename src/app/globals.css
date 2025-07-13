@@ -2,68 +2,46 @@
 @tailwind components;
 @tailwind utilities;
 
-/* This is the new Gold/Brass color theme.
-  The ThemeProvider will automatically switch between light and dark modes.
-*/
 :root {
-  --background: 220 10% 98%; /* Off-white for a softer look */
-  --foreground: 220 10% 10%; /* Dark charcoal, not quite black */
-
+  --background: 220 10% 98%;
+  --foreground: 220 10% 10%;
   --card: 220 10% 98%;
   --card-foreground: 220 10% 10%;
- 
   --popover: 220 10% 98%;
   --popover-foreground: 220 10% 10%;
- 
-  /* --- Gold/Brass Tones --- */
-  --primary: 38 92% 50%; /* A vibrant, sexy gold */
-  --primary-foreground: 40 10% 10%; /* Dark text for on top of gold */
- 
-  --secondary: 220 10% 92%; /* A light, cool gray */
+  --primary: 38 92% 50%;
+  --primary-foreground: 40 10% 10%;
+  --secondary: 220 10% 92%;
   --secondary-foreground: 220 10% 20%;
- 
   --muted: 220 10% 92%;
   --muted-foreground: 220 5% 45%;
- 
-  --accent: 38 92% 50%; /* Gold for accents */
+  --accent: 38 92% 50%;
   --accent-foreground: 40 10% 10%;
- 
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 100%;
-
   --border: 220 10% 85%;
   --input: 220 10% 85%;
-  --ring: 38 92% 50%; /* Gold for focus rings */
- 
+  --ring: 38 92% 50%;
   --radius: 0.5rem;
 }
  
 .dark {
-  --background: 220 15% 10%; /* Deep charcoal for dark mode */
+  --background: 220 15% 10%;
   --foreground: 220 10% 95%;
- 
   --card: 220 15% 12%;
   --card-foreground: 220 10% 95%;
- 
   --popover: 220 15% 10%;
   --popover-foreground: 220 10% 95%;
- 
-  /* --- Gold/Brass Tones for Dark Mode --- */
-  --primary: 38 92% 55%; /* Slightly brighter gold for dark backgrounds */
+  --primary: 38 92% 55%;
   --primary-foreground: 40 10% 10%;
- 
   --secondary: 220 15% 18%;
   --secondary-foreground: 220 10% 95%;
- 
   --muted: 220 15% 18%;
   --muted-foreground: 220 5% 55%;
- 
   --accent: 38 92% 55%;
   --accent-foreground: 40 10% 10%;
- 
   --destructive: 0 62% 40%;
   --destructive-foreground: 0 0% 100%;
- 
   --border: 220 15% 18%;
   --input: 220 15% 18%;
   --ring: 38 92% 55%;
@@ -72,4 +50,69 @@
 body {
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
+}
+
+/* ================================== */
+/* == Custom React Calendar Styles == */
+/* ================================== */
+
+/* Main calendar container */
+.react-calendar {
+  border: none !important;
+  font-family: inherit !important;
+}
+
+/* Make all text inside the calendar dark gray in light mode */
+.react-calendar,
+.react-calendar button {
+  color: #111827;
+}
+
+/* Make all text inside the calendar light gray in dark mode */
+.dark .react-calendar,
+.dark .react-calendar button {
+  color: #d1d5db;
+}
+
+/* Month/Year Navigation (e.g., "July 2025") */
+.react-calendar__navigation__label {
+  font-weight: 700 !important;
+}
+
+/* Weekday labels (MON, TUE, etc.) */
+.react-calendar__month-view__weekdays__weekday abbr {
+  text-decoration: none !important;
+  font-weight: 600 !important;
+  color: #4b5563 !important;
+}
+.dark .react-calendar__month-view__weekdays__weekday abbr {
+  color: #9ca3af !important;
+}
+
+/* Individual day numbers */
+.react-calendar__month-view__days__day abbr {
+  font-weight: 500 !important;
+}
+
+/* Styling for the SELECTED day */
+.react-calendar__tile--active {
+  background: #3b82f6 !important;
+  color: white !important;
+  font-weight: 700 !important;
+}
+.react-calendar__tile--active:hover {
+  background: #2563eb !important;
+}
+
+/* Styling for TODAY's date */
+.react-calendar__tile--now {
+  background: #e5e7eb !important;
+}
+.dark .react-calendar__tile--now {
+  background: #374151 !important;
+}
+
+/* Remove border on calendar tiles */
+.react-calendar__tile {
+    border: none;
 }
